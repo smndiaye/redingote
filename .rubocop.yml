@@ -1,0 +1,21 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+    - lib/**/*.rake
+    - '**/Gemfile'
+  Exclude:
+    - db/schema.rb
+    - db/seed.rb
+
+Metrics/LineLength:
+  Max: 120
+  Include:
+    - 'app/**/*'
+
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']
+
+AsciiComments:
+  Enabled: false
