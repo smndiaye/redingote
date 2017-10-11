@@ -29,7 +29,7 @@ jobs:
           pwd
           ls
           sleep 10 && curl --retry 10 --retry-delay 10 -v http://127.0.0.1:9200/
-          curl -XPUT 127.0.0.1:9200/monoqn_product_v1 -H 'Content-Type: application/json' --data-binary @monoqn_product_v1.json
+          curl -XPUT 127.0.0.1:9200/monoqn_product_v1 -H 'Content-Type: application/json' --data-binary @msssonoqn_product_v1.json
           curl -XGET http://localhost:9200/_settings
 
 #      - checkout
