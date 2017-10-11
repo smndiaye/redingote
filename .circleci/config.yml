@@ -17,8 +17,8 @@ jobs:
 #           ES_JAVA_OPTS: '-Xms256m -Xmx256m'
        - image: library/mysql:5.6
          env:
-           - MYSQL_ALLOW_EMPTY_PASSWORD=true
-           - MYSQL_ROOT_HOST=%
+           - MYSQL_USER=root
+           - MYSQL_PASSWORD=''
 
     working_directory: ~/redingote
 
@@ -48,8 +48,8 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-#      - run: bundle exec rake db:create
-#      - run: bundle exec rake db:schema:load
+      - run: RAILS_ENV=test bundle exec rake db:create
+      - run: RAILS_ENV=test bundle exec rake db:schema:load
 
       # Rubocop
       - run:
@@ -60,7 +60,11 @@ jobs:
       - run:
           name: rspec
           command: |
-            bundle exec rspec
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       # collect reports
       - store_test_results:
