@@ -9,15 +9,15 @@ jobs:
        - image: circleci/ruby:2.4.1-node-browsers
          environment:
            CIRCLE_TEST_REPORTS: /tmp/test-results
-       - image: docker.elastic.co/elasticsearch/elasticsearch:5.4.2
-         environment:
-           http.host: '0.0.0.0'
-           http.port: 9200
-           xpack.security.enabled: false
-           ES_JAVA_OPTS: '-Xms256m -Xmx256m'
+#       - image: docker.elastic.co/elasticsearch/elasticsearch:5.4.2
+#         environment:
+#           http.host: '0.0.0.0'
+#           http.port: 9200
+#           xpack.security.enabled: false
+#           ES_JAVA_OPTS: '-Xms256m -Xmx256m'
 #       - image: library/mysql:5.6
 #         env:
-#           - MYSQL_ROOT_PASSWORD=hey
+#           - MYSQL_ROOT_PASSWORD=''
 #           - MYSQL_DATABASE=redingote_test
 
     working_directory: ~/redingote
@@ -25,12 +25,12 @@ jobs:
     steps:
       - checkout
 
-      - type: shell
-        name: Test ElasticSearch
-        command: |
-          sleep 10 && curl --retry 10 --retry-delay 10 -v http://127.0.0.1:9200/
-          curl -XPUT 127.0.0.1:9200/monoqn_product_v1 -H 'Content-Type: application/json' --data-binary @monoqn_product_v1.json
-          curl -XGET http://localhost:9200/_settings
+#      - type: shell
+#        name: Test ElasticSearch
+#        command: |
+#          sleep 10 && curl --retry 10 --retry-delay 10 -v http://127.0.0.1:9200/
+#          curl -XPUT 127.0.0.1:9200/monoqn_product_v1 -H 'Content-Type: application/json' --data-binary @monoqn_product_v1.json
+#          curl -XGET http://localhost:9200/_settings
 
 
 #      # Download and cache dependencies
@@ -54,10 +54,10 @@ jobs:
 #      - run: RAILS_ENV=test bundle exec rake db:create
 #      - run: RAILS_ENV=test bundle exec rake db:schema:load
 #
-#      # Rubocop
-#      - run:
-#          name: Run Rubocop
-#          command: ./sh/rubocop.sh
+      # Rubocop
+      - run:
+          name: Run Rubocop
+          command: ./sh/rubocop.sh
 #
 #      # Rspec tests
 #      - run:
