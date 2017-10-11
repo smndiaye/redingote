@@ -34,11 +34,11 @@ echo "$RUBY_DIFFS" | xargs rubocop --require "$(gem which rubocop/formatter/chec
                                    --format RuboCop::Formatter::CheckstyleFormatter \
                                    --out rubocop.xml
 
-cat rubocop.xml | \
+sudo cat rubocop.xml | \
     checkstyle_filter-git diff origin/master | \
     saddler report --require saddler/reporter/github --reporter $REPORTER
 
-cp -v 'rubocop.xml' "$CIRCLE_ARTIFACTS/"
+sudo cp -v 'rubocop.xml' "$CIRCLE_ARTIFACTS/"
 
 echo "******************************"
 echo "*     Rails Best Pratices    *"
@@ -46,11 +46,11 @@ echo "******************************"
 
 echo "$RUBY_DIFFS" | xargs rails_best_practices --format xml
 
-cat rails_best_practices_output.xml | \
+sudo cat rails_best_practices_output.xml | \
     checkstyle_filter-git diff origin/master | \
     saddler report --require saddler/reporter/github --reporter $REPORTER
 
-cp -v 'rails_best_practices_output.xml' "$CIRCLE_ARTIFACTS/"
+sudo cp -v 'rails_best_practices_output.xml' "$CIRCLE_ARTIFACTS/"
 
 echo "******************************"
 echo "*            Reek            *"
@@ -58,8 +58,8 @@ echo "******************************"
 
 echo "$RUBY_DIFFS" | xargs reek app --format xml > reek.xml
 
-cat reek.xml | \
+sudo cat reek.xml | \
     checkstyle_filter-git diff origin/master | \
     saddler report --require saddler/reporter/github --reporter $REPORTER
 
-cp -v 'reek.xml' "$CIRCLE_ARTIFACTS/"
+sudo cp -v 'reek.xml' "$CIRCLE_ARTIFACTS/"
