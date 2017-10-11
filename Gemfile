@@ -42,6 +42,7 @@ group :development, :test do
   gem 'rspec_junit_formatter', '~> 0.3.0'
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.15.1'
+  gem 'danger-rubocop', '~> 0.5.0'
 end
 
 group :development do
@@ -50,7 +51,6 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'rubocop', '~> 0.50.0', require: false
-  gem 'danger-rubocop', '~> 0.5.0'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
