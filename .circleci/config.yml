@@ -15,10 +15,10 @@ jobs:
            http.port: 9200
            xpack.security.enabled: false
            ES_JAVA_OPTS: '-Xms256m -Xmx256m'
-       - image: library/mysql:5.6
-         env:
-           - MYSQL_ROOT_PASSWORD=hey
-           - MYSQL_DATABASE=redingote_test
+#       - image: library/mysql:5.6
+#         env:
+#           - MYSQL_ROOT_PASSWORD=hey
+#           - MYSQL_DATABASE=redingote_test
 
     working_directory: ~/redingote
 
@@ -26,49 +26,51 @@ jobs:
       - type: shell
         name: Test ElasticSearch
         command: |
-          sleep 60 && curl -XGET 'localhost:9200'
+          sleep 10 && curl --retry 5 --retry-delay 10 -v http://127.0.0.1:9200/
+          curl -XPUT 127.0.0.1:9200/monoqn_product_v1 -d .circleci/monoqn_product_v1.json
+          curl -XGET http://localhost:9200/_settings
 
-      - checkout
+#      - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+#      # Download and cache dependencies
+#      - restore_cache:
+#          keys:
+#          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+#          # fallback to using the latest cache if no exact match is found
+#          - v1-dependencies-
 
-      - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # Database setup
-      - run: RAILS_ENV=test bundle exec rake db:create
-      - run: RAILS_ENV=test bundle exec rake db:schema:load
-
-      # Rubocop
-      - run:
-          name: Run Rubocop
-          command: ./sh/rubocop.sh
-
-      # Rspec tests
-      - run:
-          name: rspec
-          command: |
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+#      - run:
+#          name: install dependencies
+#          command: |
+#            bundle install --jobs=4 --retry=3 --path vendor/bundle
+#
+#      - save_cache:
+#          paths:
+#            - ./vendor/bundle
+#          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+#
+#      # Database setup
+#      - run: RAILS_ENV=test bundle exec rake db:create
+#      - run: RAILS_ENV=test bundle exec rake db:schema:load
+#
+#      # Rubocop
+#      - run:
+#          name: Run Rubocop
+#          command: ./sh/rubocop.sh
+#
+#      # Rspec tests
+#      - run:
+#          name: rspec
+#          command: |
+#            bundle exec rspec --profile 10 \
+#                              --format RspecJunitFormatter \
+#                              --out test_results/rspec.xml \
+#                              --format progress \
+#                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+#
+#      # collect reports
+#      - store_test_results:
+#          path: /tmp/test-results
+#      - store_artifacts:
+#          path: /tmp/test-results
+#          destination: test-results
