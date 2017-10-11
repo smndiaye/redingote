@@ -57,7 +57,8 @@ jobs:
       # Rubocop
       - run:
           name: Run Rubocop
-          command: ./sh/rubocop.sh
+          command: bundle exec danger
+#          pr./sh/rubocop.sh
 #
 #      # Rspec tests
 #      - run:
