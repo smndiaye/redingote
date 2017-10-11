@@ -1,283 +1,281 @@
-{
-  "settings": {
-    "number_of_shards": 16,
-    "analysis": {
-      "filter": {
-        "nGram_filter": {
-          "type": "nGram",
-          "min_gram": 1,
-          "max_gram": 15,
-          "token_chars": [
-            "letter",
-            "digit",
-            "punctuation",
-            "symbol"
-          ]
-        }
-      },
-      "analyzer": {
-        "nGram_analyzer": {
-          "type": "custom",
-          "tokenizer": "whitespace",
-          "filter": [
-            "lowercase",
-            "asciifolding",
-            "nGram_filter"
-          ]
-        },
-        "whitespace_analyzer": {
-          "type": "custom",
-          "tokenizer": "whitespace",
-          "filter": [
-            "lowercase",
-            "asciifolding"
-          ]
-        }
-      }
-    }
-  },
-  "mappings": {
-    "product": {
-      "properties": {
-        "autoApproveFlag": {
-          "type": "boolean"
-        },
-        "brandId": {
-          "type": "long"
-        },
-        "brandName": {
-          "type": "text",
-          "copy_to": "ndbc",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "buyDt": {
-          "type": "date"
-        },
-        "buyerUserId": {
-          "type": "long"
-        },
-        "buyerUserName": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "category1Id": {
-          "type": "long"
-        },
-        "category1Name": {
-          "type": "text",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "category2Id": {
-          "type": "long"
-        },
-        "category2Name": {
-          "type": "text",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "category3Id": {
-          "type": "long"
-        },
-        "category3Name": {
-          "type": "text",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "commentCount": {
-          "type": "long"
-        },
-        "createdDt": {
-          "type": "date"
-        },
-        "deleteFlag": {
-          "type": "long"
-        },
-        "deliveryAddressFrom": {
-          "type": "text",
-          "copy_to": "ndbc",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "deliveryFeeCharge": {
-          "type": "long"
-        },
-        "deliveryMethod": {
-          "type": "long"
-        },
-        "deliveryTime": {
-          "type": "long"
-        },
-        "detail": {
-          "type": "text",
-          "copy_to": "ndbc",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 1024
-            }
-          }
-        },
-        "handmade": {
-          "type": "integer"
-        },
-        "id": {
-          "type": "long"
-        },
-        "likeCount": {
-          "type": "long"
-        },
-        "ndbc": {
-          "type": "text",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 2048
-            }
-          }
-        },
-        "note": {
-          "type": "text",
-          "copy_to": "ndbc",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "orderStatus": {
-          "type": "long"
-        },
-        "payType": {
-          "type": "long"
-        },
-        "pictureUrl": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "price": {
-          "type": "long"
-        },
-        "productName": {
-          "type": "text",
-          "copy_to": "ndbc",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "quality": {
-          "type": "long"
-        },
-        "sellerUserName": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        },
-        "sizeId": {
-          "type": "long"
-        },
-        "status": {
-          "type": "long"
-        },
-        "updatedDt": {
-          "type": "date"
-        },
-        "userDeleteFlag": {
-          "type": "long"
-        },
-        "userId": {
-          "type": "long"
-        }
-      }
-    },
-    "liked_by_users": {
-      "_parent": {
-        "type": "product"
-      },
-      "properties": {
-        "id": {
-          "type": "long",
-          "index": "not_analyzed"
-        }
-      }
-    },
-    "tag": {
-      "_parent" : {
-        "type" : "product"
-      },
-      "properties": {
-        "id": { "type": "long", "index": "not_analyzed" },
-        "name": {
-          "type": "string",
-          "analyzer": "nGram_analyzer",
-          "search_analyzer": "whitespace_analyzer"
-        }
-      }
-    },
-    "blocker_users": {
-      "_parent" : {
-        "type" : "product"
-      },
-      "properties": {
-        "id": { "type": "long", "index": "not_analyzed" }
-      }
-    }
-  }
+"settings": {
+"number_of_shards": 16,
+"analysis": {
+"filter": {
+"nGram_filter": {
+"type": "nGram",
+"min_gram": 1,
+"max_gram": 15,
+"token_chars": [
+"letter",
+"digit",
+"punctuation",
+"symbol"
+]
+}
+},
+"analyzer": {
+"nGram_analyzer": {
+"type": "custom",
+"tokenizer": "whitespace",
+"filter": [
+"lowercase",
+"asciifolding",
+"nGram_filter"
+]
+},
+"whitespace_analyzer": {
+"type": "custom",
+"tokenizer": "whitespace",
+"filter": [
+"lowercase",
+"asciifolding"
+]
+}
+}
+}
+},
+"mappings": {
+"product": {
+"properties": {
+"autoApproveFlag": {
+"type": "boolean"
+},
+"brandId": {
+"type": "long"
+},
+"brandName": {
+"type": "text",
+"copy_to": "ndbc",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"buyDt": {
+"type": "date"
+},
+"buyerUserId": {
+"type": "long"
+},
+"buyerUserName": {
+"type": "text",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"category1Id": {
+"type": "long"
+},
+"category1Name": {
+"type": "text",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"category2Id": {
+"type": "long"
+},
+"category2Name": {
+"type": "text",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"category3Id": {
+"type": "long"
+},
+"category3Name": {
+"type": "text",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"commentCount": {
+"type": "long"
+},
+"createdDt": {
+"type": "date"
+},
+"deleteFlag": {
+"type": "long"
+},
+"deliveryAddressFrom": {
+"type": "text",
+"copy_to": "ndbc",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"deliveryFeeCharge": {
+"type": "long"
+},
+"deliveryMethod": {
+"type": "long"
+},
+"deliveryTime": {
+"type": "long"
+},
+"detail": {
+"type": "text",
+"copy_to": "ndbc",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 1024
+}
+}
+},
+"handmade": {
+"type": "integer"
+},
+"id": {
+"type": "long"
+},
+"likeCount": {
+"type": "long"
+},
+"ndbc": {
+"type": "text",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 2048
+}
+}
+},
+"note": {
+"type": "text",
+"copy_to": "ndbc",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"orderStatus": {
+"type": "long"
+},
+"payType": {
+"type": "long"
+},
+"pictureUrl": {
+"type": "text",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"price": {
+"type": "long"
+},
+"productName": {
+"type": "text",
+"copy_to": "ndbc",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"quality": {
+"type": "long"
+},
+"sellerUserName": {
+"type": "text",
+"fields": {
+"keyword": {
+"type": "keyword",
+"ignore_above": 256
+}
+}
+},
+"sizeId": {
+"type": "long"
+},
+"status": {
+"type": "long"
+},
+"updatedDt": {
+"type": "date"
+},
+"userDeleteFlag": {
+"type": "long"
+},
+"userId": {
+"type": "long"
+}
+}
+},
+"liked_by_users": {
+"_parent": {
+"type": "product"
+},
+"properties": {
+"id": {
+"type": "long",
+"index": "not_analyzed"
+}
+}
+},
+"tag": {
+"_parent" : {
+"type" : "product"
+},
+"properties": {
+"id": { "type": "long", "index": "not_analyzed" },
+"name": {
+"type": "string",
+"analyzer": "nGram_analyzer",
+"search_analyzer": "whitespace_analyzer"
+}
+}
+},
+"blocker_users": {
+"_parent" : {
+"type" : "product"
+},
+"properties": {
+"id": { "type": "long", "index": "not_analyzed" }
+}
+}
 }
