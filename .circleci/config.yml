@@ -58,6 +58,10 @@ jobs:
       - run:
           name: Run Rubocop
           command: bundle exec danger
+      # Brakeman
+      - run:
+          name: Run Brakeman
+          command: bundle exec brakeman
 #          pr./sh/rubocop.sh
 #
 #      # Rspec tests
