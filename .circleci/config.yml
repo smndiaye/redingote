@@ -79,7 +79,7 @@ jobs:
           name: create coverage artifacts
           command: |
             mkdir -p /tmp/coverage
-            cp coverage /tmp/coverage
+            cp -r coverage /tmp/coverage
 
       - store_artifacts:
           path: coverage
