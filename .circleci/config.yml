@@ -79,6 +79,8 @@ jobs:
           name: create coverage artifacts
           command: |
             mkdir -p /tmp/coverage
+            pwd
+            ls
             cp -r coverage /tmp/coverage
 
       - store_artifacts:
