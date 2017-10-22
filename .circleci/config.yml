@@ -52,8 +52,8 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
 #      # Database setup
-      - run: RAILS_ENV=test bundle exec rake db:create
-      - run: RAILS_ENV=test bundle exec rake db:schema:load
+#      - run: RAILS_ENV=test bundle exec rake db:create
+#      - run: RAILS_ENV=test bundle exec rake db:schema:load
 
       # Rubocop
       - run:
@@ -66,14 +66,14 @@ jobs:
 #          pr./sh/rubocop.sh
 #
 #      # Rspec tests
-#      - run:
-#          name: rspec
-#          command: |
-#            bundle exec rspec --profile 10 \
-#                              --format RspecJunitFormatter \
-#                              --out test_results/rspec.xml \
-#                              --format progress \
-#                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: rspec
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 #
 #      # collect reports
 #      - store_test_results:
