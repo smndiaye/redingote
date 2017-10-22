@@ -22,8 +22,7 @@ echo "pull request number is $PR_NUMBER"
 
 echo 'add comment to github'
 
-COV_URL="https://circle-artifacts.com/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS/coverage/index.html"
-PERCENTAGE=`cat $CIRCLE_ARTIFACTS/coverage/.last_run.json | jq '.result.covered_percent'`
+COV_URL="https://$PR_NUMBER-105956307-gh.circle-artifacts.com/0/coverage/index.html"
 COMMENT_BODY="Coverage report\\n$COV_URL\\n$PERCENTAGE%"
 POST_BODY="{\"body\": \"$COMMENT_BODY\"}"
 curl -XPOST \
