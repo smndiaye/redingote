@@ -75,13 +75,13 @@ jobs:
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      - run:
-          name: create coverage artifacts
-          command: |
-            mkdir -p /tmp/coverage
-            pwd
-            ls
-            cp -r coverage /tmp/coverage
+#      - run:
+#          name: create coverage artifacts
+#          command: |
+#            mkdir -p /tmp/coverage
+#            pwd
+#            ls
+#            cp -r coverage /tmp/coverage
 
       - store_artifacts:
           path: coverage
