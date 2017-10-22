@@ -85,6 +85,7 @@ jobs:
 
       - store_artifacts:
           path: coverage
+          destination: coverage
 
       - run:
           name: coverage comments
