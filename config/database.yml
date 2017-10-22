@@ -23,6 +23,7 @@ local:
 
 test:
   <<: *default
+  port: 3306
   database: redingote_test
 
 development:
