@@ -23,7 +23,8 @@ echo "pull request number is $PR_NUMBER"
 echo 'add comment to github'
 
 COV_URL="https://$CIRCLE_BUILD_NUM-105956307-gh.circle-artifacts.com/0/coverage/index.html"
-COMMENT_BODY="Coverage report\\n$COV_URL\\n"
+PERCENTAGE=`cat coverage/.last_run.json | jq '.result.covered_percent'`
+COMMENT_BODY="Coverage report\\n$COV_URL\\n$PERCENTAGE%"
 POST_BODY="{\"body\": \"$COMMENT_BODY\"}"
 curl -XPOST \
   -H "Authorization: token $GITHUB_ACCESS_TOKEN" \
