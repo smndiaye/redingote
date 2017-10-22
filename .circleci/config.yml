@@ -74,6 +74,10 @@ jobs:
                               --out test_results/rspec.xml \
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: coverage comments
+          command: |
+            ./sh/rubocop.sh
 #
 #      # collect reports
 #      - store_test_results:

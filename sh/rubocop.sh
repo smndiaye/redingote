@@ -1,65 +1,33 @@
 #!/usr/bin/env bash
 
-# Skip conditions
-if [ "${CIRCLE_BRANCH}" == 'master' ]; then
+set -eu
+
+echo 'check pull request'
+
+if [ "$CI_PULL_REQUEST" == false ] || [ -z "$CI_PULL_REQUEST" ]; then
+  echo 'not pull request.'
   exit 0
 fi
 
-# Install gems
-gem i --quiet --no-document \
-  checkstyle_filter-git \
-  saddler \
-  saddler-reporter-github \
-  rubocop \
-  rubocop-select \
-  rubocop-checkstyle_formatter \
-  rails_best_practices \
-  reek
+echo 'get pull request number'
 
-# Set reporter
-if [ -z "${CI_PULL_REQUEST}" ]; then
-  REPORTER=Saddler::Reporter::Github::CommitReviewComment
+if [[ $CI_PULL_REQUEST =~ ([0-9]*)$ ]]; then
+  PR_NUMBER=${BASH_REMATCH[1]}
 else
-  REPORTER=Saddler::Reporter::Github::PullRequestReviewComment
+  echo 'cannot get pull request number. maybe bug.'
+  exit 1
 fi
 
-# Get diffed files
-RUBY_DIFFS=$(git diff -z --name-only origin/master | xargs -0 rubocop-select)
+echo "pull request number is $PR_NUMBER"
 
-echo "******************************"
-echo "*          RuboCop           *"
-echo "******************************"
+echo 'add comment'
 
-echo "$RUBY_DIFFS" | xargs rubocop --require "$(gem which rubocop/formatter/checkstyle_formatter)" \
-                                   --format RuboCop::Formatter::CheckstyleFormatter \
-                                   --out rubocop.xml
-
-sudo cat rubocop.xml | \
-    checkstyle_filter-git diff origin/master | \
-    saddler report --require saddler/reporter/github --reporter $REPORTER
-
-sudo cp -v 'rubocop.xml' "$CIRCLE_ARTIFACTS/"
-
-echo "******************************"
-echo "*     Rails Best Pratices    *"
-echo "******************************"
-
-echo "$RUBY_DIFFS" | xargs rails_best_practices --format xml
-
-sudo cat rails_best_practices_output.xml | \
-    checkstyle_filter-git diff origin/master | \
-    saddler report --require saddler/reporter/github --reporter $REPORTER
-
-sudo cp -v 'rails_best_practices_output.xml' "$CIRCLE_ARTIFACTS/"
-
-echo "******************************"
-echo "*            Reek            *"
-echo "******************************"
-
-echo "$RUBY_DIFFS" | xargs reek app --format xml > reek.xml
-
-sudo cat reek.xml | \
-    checkstyle_filter-git diff origin/master | \
-    saddler report --require saddler/reporter/github --reporter $REPORTER
-
-sudo cp -v 'reek.xml' "$CIRCLE_ARTIFACTS/"
+COV_URL="https://circle-artifacts.com/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS/coverage/index.html"
+PERCENTAGE=`cat $CIRCLE_ARTIFACTS/coverage/.last_run.json | jq '.result.covered_percent'`
+COMMENT_BODY="Coverage report\\n$COV_URL\\n$PERCENTAGE%"
+POST_BODY="{\"body\": \"$COMMENT_BODY\"}"
+curl -XPOST \
+  -H "Authorization: token $GITHUB_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "$POST_BODY" \
+  https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$PR_NUMBER/comments

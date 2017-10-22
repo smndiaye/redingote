@@ -14,6 +14,3 @@ raise('fit left in tests') if `grep -r fit specs/ `.length > 1
 
 # Rubocop
 rubocop.lint
-
-# Coverage
-simplecov.report 'coverage/coverage.json'

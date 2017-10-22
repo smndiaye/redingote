@@ -57,8 +57,7 @@ group :development do
 end
 
 group :test do
-  gem 'danger-simplecov_json'
-  gem 'simplecov-json', :require => false
+  gem 'simplecov-json', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
