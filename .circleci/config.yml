@@ -60,10 +60,10 @@ jobs:
           name: Run Rubocop
           command: bundle exec danger
       # Brakeman
-      - run:
-          name: Run Brakeman
-          command: bundle exec brakeman --except BasicAuth --exit-on-warn -o $CIRCLE_ARTIFACTS/brakeman.html
-#          pr./sh/rubocop.sh
+#      - run:
+#          name: Run Brakeman
+#          command: bundle exec brakeman --except BasicAuth --exit-on-warn -o $CIRCLE_ARTIFACTS/brakeman.html
+##          pr./sh/rubocop.sh
 #
 #      # Rspec tests
       - run:
