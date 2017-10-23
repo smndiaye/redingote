@@ -3,11 +3,6 @@ set -eu
 echo 'check if pull request'
 
 if [ -z ${CI_PULL_REQUEST+x} ] ; then
-  echo 'CI_PULL_REQUEST is unset';
-  exit 0;
-fi
-
-if [ "$CI_PULL_REQUEST" == false ] ; then
   echo 'not a pull request';
   exit 0;
 fi
