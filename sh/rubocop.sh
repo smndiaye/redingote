@@ -2,7 +2,7 @@
 set -eu
 echo 'check if pull request'
 
-if [ "$CI_PULL_REQUEST" == false ] || [ -z "$CI_PULL_REQUEST" ]; then
+if [ -z "$CI_PULL_REQUEST" ] || [ "$CI_PULL_REQUEST" == false ]; then
   echo 'not pull request.'
   exit 0
 fi
