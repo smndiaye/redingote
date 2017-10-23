@@ -3,11 +3,6 @@ set -eu
 echo 'check if pull request'
 
 if [ -z ${CI_PULL_REQUEST+x} ] ; then
-  echo 'CI_PULL_REQUEST is unset';
-  exit 0;
-fi
-
-if [ "$CI_PULL_REQUEST" == false ] ; then
   echo 'not a pull request';
   exit 0;
 fi
@@ -21,7 +16,7 @@ else
   exit 1;
 fi
 
-echo 'post code coverage as github PR comment'
+echo 'post code coverage as github PR comment section'
 
 PERCENTAGE=`cat coverage/.last_run.json | jq '.result.covered_percent'`
 SIMPLE_COV_URL="https://$CIRCLE_BUILD_NUM-105956307-gh.circle-artifacts.com/0/coverage/index.html"
