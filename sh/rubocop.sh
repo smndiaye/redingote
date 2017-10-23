@@ -21,7 +21,7 @@ else
   exit 1;
 fi
 
-echo 'post code coverage as github PR comment'
+echo 'post code coverage as github PR comment section'
 
 PERCENTAGE=`cat coverage/.last_run.json | jq '.result.covered_percent'`
 SIMPLE_COV_URL="https://$CIRCLE_BUILD_NUM-105956307-gh.circle-artifacts.com/0/coverage/index.html"
