@@ -4,7 +4,7 @@ echo 'check if pull request'
 
 if [ -z "${CI_PULL_REQUEST:-}"] || [ "$CI_PULL_REQUEST" == false ] ; then
   echo 'not a pull request';
-  exit 0;
+  exit 1;
 fi
 
 echo 'get pull request number'

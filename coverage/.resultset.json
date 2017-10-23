@@ -1,0 +1,54 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/helpers/home_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/controllers/home_controller.rb": [
+        1,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/controllers/application_controller.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/channels/application_cable/channel.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/channels/application_cable/connection.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/jobs/application_job.rb": [
+        0,
+        0
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/mailers/application_mailer.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/serignembackendiaye/Documents/webdev/rails/redingote/app/models/application_record.rb": [
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1508659468
+  }
+}
