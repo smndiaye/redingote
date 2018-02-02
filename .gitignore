@@ -17,7 +17,13 @@
 !/log/.keep
 !/tmp/.keep
 
-/node_modules
-/yarn-error.log
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/workspace.xml
+.idea/redingote.iml
+.idea/.generators
+.idea/.rakeTasks
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
 
-.byebug_history

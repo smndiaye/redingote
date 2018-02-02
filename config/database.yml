@@ -15,6 +15,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   port: 3307
   username: <%= ENV['DB_USERNAME'] || 'root' %>
+  password: redingote
   host: <%= ENV['DB_HOST'] || '127.0.0.1' %>
 
 local:
