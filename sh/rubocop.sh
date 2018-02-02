@@ -1,26 +1,29 @@
 #!/usr/bin/env bash
-set -eu
-echo 'check if pull request'
 
-if [ -z ${CI_PULL_REQUEST+x} ] ; then
-  echo 'not a pull request';
+set -v
+
+# Skip if master branch
+echo "* check if master branch *"
+if [ "${CIRCLE_BRANCH}" == "master" ]; then
   exit 0;
 fi
 
-echo 'get pull request number'
+# Install gems
+echo "* install gems *"
+gem install --no-document checkstyle_filter-git saddler saddler-reporter-github
 
-if [[ $CI_PULL_REQUEST =~ ([0-9]*)$ ]]; then
-  PR_NUMBER=${BASH_REMATCH[1]}
+# Set reporter
+echo "* set reporter *"
+if [ -z "${CI_PULL_REQUEST}" ]; then
+REPORTER=Saddler::Reporter::Github::CommitReviewComment
 else
-  echo 'could not get PR number';
-  exit 1;
+REPORTER=Saddler::Reporter::Github::PullRequestReviewComment
 fi
 
-echo 'post code coverage as github PR comment section'
-
-PERCENTAGE=`cat coverage/.last_run.json | jq '.result.covered_percent'`
-SIMPLE_COV_URL="https://$CIRCLE_BUILD_NUM-105956307-gh.circle-artifacts.com/0/coverage/index.html"
-COMMENT_BODY="[Code coverage is now at $PERCENTAGE%]($SIMPLE_COV_URL)"
-curl -XPOST -H "Authorization: token $GITHUB_ACCESS_TOKEN" -H "Content-Type: application/json" \
-  -d "{\"body\": \"$COMMENT_BODY\"}" \
-  https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$PR_NUMBER/comments
+# Reports
+echo "* reports *"
+git diff --name-only origin/master \
+| grep '\.js\?$\|\.jsx\?$' \
+| xargs node_modules/eslint/bin/eslint.js -f checkstyle \
+| checkstyle_filter-git diff origin/master \
+| saddler report --require saddler/reporter/github --reporter $REPORTER
