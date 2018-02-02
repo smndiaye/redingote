@@ -56,9 +56,13 @@ jobs:
 #      - run: RAILS_ENV=test bundle exec rake db:schema:load
 
       # Rubocop
+#      - run:
+#          name: Run Rubocop
+#          command: bundle exec danger
       - run:
           name: Run Rubocop
-          command: bundle exec danger
+          command: |
+            ./sh/rubocop.sh
       # Brakeman
 #      - run:
 #          name: Run Brakeman
@@ -90,7 +94,7 @@ jobs:
       - run:
           name: coverage comments
           command: |
-            ./sh/rubocop.sh
+            ./sh/coverage.sh
 #
 #      # collect reports
 #      - store_test_results:
