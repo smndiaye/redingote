@@ -18,7 +18,7 @@ jobs:
        - image: library/mysql:5.6
          command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --innodb-large-prefix=true --innodb-file-format=Barracuda
          env:
-           - MYSQL_ALLOW_EMPTY_PASSWORD=true
+           - MYSQL_ROOT_PASSWORD=redingote
            - MYSQL_DATABASE=redingote_test
 
     working_directory: ~/redingote
@@ -56,9 +56,13 @@ jobs:
 #      - run: RAILS_ENV=test bundle exec rake db:schema:load
 
       # Rubocop
+#      - run:
+#          name: Run Rubocop
+#          command: bundle exec danger
       - run:
           name: Run Rubocop
-          command: bundle exec danger
+          command: |
+            ./sh/rubocop.sh
       # Brakeman
 #      - run:
 #          name: Run Brakeman
@@ -90,7 +94,7 @@ jobs:
       - run:
           name: coverage comments
           command: |
-            ./sh/rubocop.sh
+            ./sh/coverage.sh
 #
 #      # collect reports
 #      - store_test_results:
