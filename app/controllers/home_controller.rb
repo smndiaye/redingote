@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def hello
-    setupFile = 'ddddddddddsfdsfsdfsfddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+    setupFile = 'ddddddddddsfdsfsdfsfdddddddddddddjnjknjkjkmmmmdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+    l = 0
   end
 end
