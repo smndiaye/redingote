@@ -7,6 +7,11 @@ COMMENT_BODY="[Code coverage is now at $PERCENTAGE%]($SIMPLE_COV_URL)"
 
 
 if [ -z ${CI_PULL_REQUEST+x} ] || [ "$CI_PULL_REQUEST" == false ] ; then
+  echo 'get commit sha';
+  curl -XPOST -H "Authorization: token $GITHUB_ACCESS_TOKEN" -H "Content-Type: application/json" \
+  -d "{\"body\": \"$COMMENT_BODY\"}" \
+  https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/comments
+else
   if [[ $CI_PULL_REQUEST =~ ([0-9]*)$ ]]; then
       echo 'get pull request number'
       PR_NUMBER=${BASH_REMATCH[1]}
@@ -14,9 +19,4 @@ if [ -z ${CI_PULL_REQUEST+x} ] || [ "$CI_PULL_REQUEST" == false ] ; then
       -d "{\"body\": \"$COMMENT_BODY\"}" \
       https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$PR_NUMBER/comments
   fi
-else
-  echo 'get commit sha';
-  curl -XPOST -H "Authorization: token $GITHUB_ACCESS_TOKEN" -H "Content-Type: application/json" \
-  -d "{\"body\": \"$COMMENT_BODY\"}" \
-  https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/comments
 fi
